@@ -1,6 +1,8 @@
 #ifndef BOOST_PYTHON_LOCAL_H
 #define BOOST_PYTHON_LOCAL_H
 
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+
 #define BOOST_PYTHON_STATIC_LIB
 #include <boost/python.hpp>
 

@@ -43,22 +43,23 @@ private:
 //-------------------------------------------------------------------------------------------------
 
 template<class T>
-class VersionWrapper : private T
+class VersionWrapper
 {
 public:
     inline VersionWrapper(const T & v)
     {
-        major = v.major;
-        minor = v.minor;
-        maintenance = v.maintenance;
-        build = v.build;
+        m_v.major = v.major;
+        m_v.minor = v.minor;
+        m_v.maintenance = v.maintenance;
+        m_v.build = v.build;
     }
-    inline int getMajor() const { return major; }
-    inline int getMinor() const { return minor; }
-    inline int getMaintenance() const { return maintenance; }
-    inline int getBuild() const { return build; }
+    inline int getMajor() const { return m_v.major; }
+    inline int getMinor() const { return m_v.minor; }
+    inline int getMaintenance() const { return m_v.maintenance; }
+    inline int getBuild() const { return m_v.build; }
 private:
     VersionWrapper() {}
+    T m_v;
 };
 
 template<class T>
