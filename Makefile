@@ -3,8 +3,10 @@ PYTHON_VERSION = 2.7
 PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
 
 # location of the Boost Python include files and library
-NITE2_INC = ../NiTE-Linux-x64-2.2/Include
 OPENNI2_INC = ../OpenNI2/Include
+OPENNI2_LIB = ../OpenNI2/Bin/x64-Release
+NITE2_INC = ../NiTE-Linux-x64-2.2/Include
+NITE2_LIB = ../NiTE-Linux-x64-2.2/Redist
 BOOST_INC = /usr/include
 BOOST_LIB = /usr/lib
 
@@ -14,7 +16,7 @@ TARGET = nite2
 OBJS = nite2.o openni2.o wrapper.o
 
 $(TARGET).so: $(OBJS)
-	$(CC) -shared -Wl,--export-dynamic $^ -L$(BOOST_LIB) -L/usr/lib/python$(PYTHON_VERSION)/config -lpython$(PYTHON_VERSION) -o $@
+	$(CC) -shared -Wl,--export-dynamic $^ -L$(BOOST_LIB) -L$(OPENNI2_LIB) -L$(NITE2_LIB) -L/usr/lib/python$(PYTHON_VERSION)/config -lpython$(PYTHON_VERSION) -lboost_python-py27 -lOpenNI2 -lNiTE2 -o $@
 
 $(OBJS): %.o: %.cpp
 	$(CC) -I$(PYTHON_INCLUDE) -I$(BOOST_INC) -I$(NITE2_INC) -I$(OPENNI2_INC) -std=gnu++11 -fPIC -c $< -o $@
