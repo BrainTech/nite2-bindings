@@ -475,7 +475,7 @@ public:
             if(pixels)
             {
                 if(m.getStride() != sizeof(nite::UserId) * m.getWidth())
-                    throw std::exception("data format where stride != sizeof(UserId)*width is not currently supported");
+                    throw std::runtime_error("data format where stride != sizeof(UserId)*width is not currently supported");
 
                 // size of array is equal to sizeof(UserId) * height * stride
                 npy_intp dims[2] = { m.getHeight(), m.getWidth() };
