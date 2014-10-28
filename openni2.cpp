@@ -86,7 +86,7 @@ VideoFrameWrapper::VideoFrameWrapper(const openni::VideoFrameRef & f)
         if(pf != openni::PIXEL_FORMAT_RGB888 &&
            pf != openni::PIXEL_FORMAT_DEPTH_1_MM &&
            pf != openni::PIXEL_FORMAT_DEPTH_100_UM)
-            throw std::exception("only RGB888, DEPTH_1_MM and DEPTH_100_UM pixel formats are supported");
+            throw std::runtime_error("only RGB888, DEPTH_1_MM and DEPTH_100_UM pixel formats are supported");
 
         // openni::DepthPixel, openni::RGB888Pixel
 
@@ -95,14 +95,14 @@ VideoFrameWrapper::VideoFrameWrapper(const openni::VideoFrameRef & f)
         if(pf == openni::PIXEL_FORMAT_RGB888)
         {
             if(f.getStrideInBytes() != 3*getWidth())
-                throw std::exception("strange stride value ???");
+                throw std::runtime_error("strange stride value ???");
             npy_intp dims[3] = { f.getHeight(), f.getWidth(), 3 };
             obj = PyArray_SimpleNewFromData(3, dims, NPY_UBYTE, (void*)data);
         }
         else if(pf == openni::PIXEL_FORMAT_DEPTH_1_MM || pf == openni::PIXEL_FORMAT_DEPTH_100_UM)
         {
             if(f.getStrideInBytes() != sizeof(openni::DepthPixel)*f.getWidth())
-                throw std::exception("strange stride value ???");
+                throw std::runtime_error("strange stride value ???");
             npy_intp dims[2] = { f.getHeight(), f.getWidth() };
             obj = PyArray_SimpleNewFromData(2, dims, NPY_USHORT, (void*)data);
         }

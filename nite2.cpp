@@ -68,7 +68,7 @@ static void extract_point3_from_py_obj(const bp::object & obj, T & x, T & y, T &
         }
         catch(...)
         {
-            throw std::exception("cannot extract point3 from python object");
+            throw std::runtime_error("cannot extract point3 from python object");
         }
     }
 }
@@ -103,7 +103,7 @@ static void extract_point4_from_py_obj(const bp::object & obj, T & w, T & x, T &
         }
         catch(...)
         {
-            throw std::exception("cannot extract point4 from python object");
+            throw std::runtime_error("cannot extract point4 from python object");
         }
     }
 }
@@ -131,7 +131,7 @@ public:
             }
             catch(...)
             {
-                throw std::exception("cannot create Point3fWrapper from python object");
+                throw std::runtime_error("cannot create Point3fWrapper from python object");
             }
         }
     }
@@ -216,7 +216,7 @@ public:
             }
             catch(...)
             {
-                throw std::exception("cannot create QuaternionWrapper from python object");
+                throw std::runtime_error("cannot create QuaternionWrapper from python object");
             }
         }
     }
