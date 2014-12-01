@@ -51,9 +51,6 @@ static void extract_point3_from_py_obj(const bp::object & obj, T & x, T & y, T &
         new_x = bp::extract<T>(obj[0]);
         new_y = bp::extract<T>(obj[1]);
         new_z = bp::extract<T>(obj[2]);
-        x = new_x;
-        y = new_y;
-        z = new_z;
     }
     catch(...)
     {
@@ -62,15 +59,15 @@ static void extract_point3_from_py_obj(const bp::object & obj, T & x, T & y, T &
             new_x = bp::extract<T>(obj.attr("x"));
             new_y = bp::extract<T>(obj.attr("y"));
             new_z = bp::extract<T>(obj.attr("z"));
-            x = new_x;
-            y = new_y;
-            z = new_z;
         }
         catch(...)
         {
             throw std::runtime_error("cannot extract point3 from python object");
         }
     }
+    x = new_x;
+    y = new_y;
+    z = new_z;
 }
 
 template<typename T>
@@ -83,10 +80,6 @@ static void extract_point4_from_py_obj(const bp::object & obj, T & w, T & x, T &
         new_x = bp::extract<T>(obj[1]);
         new_y = bp::extract<T>(obj[2]);
         new_z = bp::extract<T>(obj[3]);
-        w = new_w;
-        x = new_x;
-        y = new_y;
-        z = new_z;
     }
     catch(...)
     {
@@ -96,16 +89,16 @@ static void extract_point4_from_py_obj(const bp::object & obj, T & w, T & x, T &
             new_x = bp::extract<T>(obj.attr("x"));
             new_y = bp::extract<T>(obj.attr("y"));
             new_z = bp::extract<T>(obj.attr("z"));
-            w = new_w;
-            x = new_x;
-            y = new_y;
-            z = new_z;
         }
         catch(...)
         {
             throw std::runtime_error("cannot extract point4 from python object");
         }
     }
+    w = new_w;
+    x = new_x;
+    y = new_y;
+    z = new_z;    
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -113,10 +106,26 @@ static void extract_point4_from_py_obj(const bp::object & obj, T & w, T & x, T &
 class Point3fWrapper : private nite::Point3f
 {
 public:
-    inline Point3fWrapper() : nite::Point3f() {}
-    inline Point3fWrapper(const NitePoint3f & p) : nite::Point3f(p.x, p.y, p.z) {}
-    inline Point3fWrapper(const Point3fWrapper & p) : nite::Point3f(p.x, p.y, p.z) {}
-    inline Point3fWrapper(float x, float y, float z) : nite::Point3f(x, y, z) {}
+    inline Point3fWrapper() 
+        : nite::Point3f()
+    {
+    }
+
+    inline Point3fWrapper(const NitePoint3f & p) 
+        : nite::Point3f(p.x, p.y, p.z)
+    {
+    }
+    
+    inline Point3fWrapper(const Point3fWrapper & p)
+        : nite::Point3f(p.x, p.y, p.z) 
+    {
+    }
+    
+    inline Point3fWrapper(float x, float y, float z) 
+        : nite::Point3f(x, y, z) 
+    {
+    }
+    
     inline Point3fWrapper(const bp::object & obj)
     {
         try
@@ -164,7 +173,7 @@ public:
             case 1: return y;
             case 2: return z;
             default:
-                // translated to by Boost.Python to IndexError (not RangeError)
+                // translated by Boost.Python to IndexError (not RangeError)
                 throw std::out_of_range("Point contains only 3 elements");
         }
     }
@@ -177,7 +186,7 @@ public:
             case 1: y = val; break;
             case 2: z = val; break;
             default:
-                // translated to by Boost.Python to IndexError (not RangeError)
+                // translated by Boost.Python to IndexError (not RangeError)
                 throw std::out_of_range("Point contains only 3 elements");
         }
     }
@@ -198,10 +207,26 @@ inline std::ostream & operator << (std::ostream & output, const Point3fWrapper &
 class QuaternionWrapper : private nite::Quaternion
 {
 public:
-    inline QuaternionWrapper() : nite::Quaternion() {}
-    inline QuaternionWrapper(const NiteQuaternion & p) : nite::Quaternion(p.w, p.x, p.y, p.z) {}
-    inline QuaternionWrapper(const QuaternionWrapper & p) : nite::Quaternion(p.w, p.x, p.y, p.z) {}
-    inline QuaternionWrapper(float w, float x, float y, float z) : nite::Quaternion(w, x, y, z) {}
+    inline QuaternionWrapper() 
+        : nite::Quaternion()
+    {
+    }
+    
+    inline QuaternionWrapper(const NiteQuaternion & p) 
+        : nite::Quaternion(p.w, p.x, p.y, p.z)
+    {
+    }
+    
+    inline QuaternionWrapper(const QuaternionWrapper & p) 
+        : nite::Quaternion(p.w, p.x, p.y, p.z) 
+    {
+    }
+    
+    inline QuaternionWrapper(float w, float x, float y, float z) 
+        : nite::Quaternion(w, x, y, z) 
+    {
+    }
+    
     inline QuaternionWrapper(const bp::object & obj)
     {
         try
@@ -367,6 +392,7 @@ public:
     {
         return m_normal;
     }
+
 private:
     Point3fWrapper m_point;
     Point3fWrapper m_normal;
@@ -550,6 +576,7 @@ public:
     {
         return m_frameIndex;
     }
+
 private:
     bool m_isValid;
     float m_floorConfidence;
@@ -602,6 +629,7 @@ public:
     {
         return m_flags.isTouchingFov;
     }
+
 private:
     const nite::HandId m_id;
     const Point3fWrapper m_position;
@@ -729,6 +757,7 @@ public:
     {
         return m_frameIndex;
     }
+    
 private:
     bool m_isValid;
     bp::list m_hands;
@@ -740,7 +769,8 @@ private:
 
 //-----------------------------------------------------------------------------------------------
 
-class UserTrackerWrapper : private nite::UserTracker, private nite::UserTracker::NewFrameListener
+class UserTrackerWrapper : private nite::UserTracker,
+                           private nite::UserTracker::NewFrameListener
 {
 public:
     inline UserTrackerWrapper()
@@ -890,7 +920,8 @@ private:
 
 //-----------------------------------------------------------------------------------------------
 
-class HandTrackerWrapper : private nite::HandTracker, private nite::HandTracker::NewFrameListener
+class HandTrackerWrapper : private nite::HandTracker,
+                           private nite::HandTracker::NewFrameListener
 {
 public:
     inline HandTrackerWrapper()

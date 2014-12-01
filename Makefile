@@ -3,10 +3,10 @@ PYTHON_VERSION = 2.7
 PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
 
 # location of the Boost Python include files and library
-OPENNI2_INC = ../OpenNI2/Include
-OPENNI2_LIB = ../OpenNI2/Bin/x64-Release
-NITE2_INC = ../NiTE-Linux-x64-2.2/Include
-NITE2_LIB = ../NiTE-Linux-x64-2.2/Redist
+OPENNI2_INC = ../kinect/Include
+OPENNI2_LIB = ../kinect/Redist
+NITE2_INC = ../kinect/Include
+NITE2_LIB = ../kinect/Redist
 BOOST_INC = /usr/include
 BOOST_LIB = /usr/lib
 
