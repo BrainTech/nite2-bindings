@@ -19,7 +19,7 @@ $(TARGET).so: $(OBJS)
 	$(CC) -shared -Wl,--export-dynamic $^ -L$(BOOST_LIB) -L$(OPENNI2_LIB) -L$(NITE2_LIB) -L/usr/lib/python$(PYTHON_VERSION)/config -lpython$(PYTHON_VERSION) -lboost_python-py27 -lOpenNI2 -lNiTE2 -o $@
 
 $(OBJS): %.o: %.cpp
-	$(CC) -I$(PYTHON_INCLUDE) -I$(BOOST_INC) -I$(NITE2_INC) -I$(OPENNI2_INC) -std=gnu++11 -fPIC -c $< -o $@
+	$(CC) -Wall -Wextra -O2 -I$(PYTHON_INCLUDE) -I$(BOOST_INC) -I$(NITE2_INC) -I$(OPENNI2_INC) -std=gnu++11 -fPIC -c $< -o $@
 
 clean:
 	rm -f *.o

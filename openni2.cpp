@@ -101,7 +101,7 @@ VideoFrameWrapper::VideoFrameWrapper(const openni::VideoFrameRef & f)
         }
         else if(pf == openni::PIXEL_FORMAT_DEPTH_1_MM || pf == openni::PIXEL_FORMAT_DEPTH_100_UM)
         {
-            if(f.getStrideInBytes() != sizeof(openni::DepthPixel)*f.getWidth())
+            if(f.getStrideInBytes() != int(sizeof(openni::DepthPixel))*f.getWidth())
                 throw std::runtime_error("strange stride value ???");
             npy_intp dims[2] = { f.getHeight(), f.getWidth() };
             obj = PyArray_SimpleNewFromData(2, dims, NPY_USHORT, (void*)data);
